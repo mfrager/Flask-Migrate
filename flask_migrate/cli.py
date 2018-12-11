@@ -19,7 +19,7 @@ def db():
 @click.option('--multidb', is_flag=True,
               help=('Support multiple databases'))
 @with_appcontext
-def migrate(directory, multidb):
+def migrate(directory, engine, multidb):
     """Perform a migration."""
     flask_dir = current_app.root_path
     path = os.path.join(flask_dir, 'app', 'sql_tables')
