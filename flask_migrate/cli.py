@@ -1,5 +1,6 @@
 import os
 import click
+import logging
 from flask import current_app, g
 from flask.cli import with_appcontext
 from flask_migrate import init as _init
@@ -7,6 +8,8 @@ from flask_migrate import migrate as _migrate
 from flask_migrate import upgrade as _upgrade
 
 from .table import TableBuilder
+
+log = logging.getLogger()
 
 @click.group()
 def db():
@@ -24,6 +27,7 @@ def db():
 def migrate(directory, engine, multidb):
     """Perform a migration."""
     flask_dir = current_app.root_path
+    log.info(flask_dir)
     path = os.path.join(flask_dir, 'app', 'sql_tables')
     tb = TableBuilder()
     res = tb.build_sqlalchemy_schema(path, engine=engine)
