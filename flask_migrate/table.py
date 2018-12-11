@@ -1,10 +1,13 @@
 import json
 import re
 import glob
+import logging
 from pathlib import Path
 from sqlalchemy import MetaData, Table, Column, Index, text
 from sqlalchemy.dialects import mysql, postgresql, sqlite
 import sqlalchemy.types as satypes
+
+log = logging.getLogger()
 
 class ColumnSpec(object):
     TYPES = {
@@ -303,8 +306,11 @@ class TableBuilder(object):
     def build_sqlalchemy_schema(self, path, engine='mysql'):
         pattern = str(Path(path) / '*.js')
         tables = sorted(glob.glob(pattern))
+        res = []
         for table in tables:
             ts = TableSpec.read_file(table)
-            self.build_sqlalchemy_table(ts, engine)
-            print('{} {}'.format(table, ts))
+            t = self.build_sqlalchemy_table(ts, engine)
+            log.info('Table: {} {}'.format(table, t)
+            res.append([table, t])
+        return res
 
