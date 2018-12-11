@@ -27,7 +27,7 @@ def db():
 def migrate(directory, engine, multidb):
     """Perform a migration."""
     flask_dir = current_app.root_path
-    log.info(flask_dir)
+    log.info('Flask Dir: {}'.format(flask_dir))
     path = os.path.join(flask_dir, 'app', 'sql_tables')
     tb = TableBuilder()
     res = tb.build_sqlalchemy_schema(path, engine=engine)
