@@ -79,7 +79,10 @@ class ColumnSpec(object):
         elif coltype == 'currency':
             sqltype = satypes.Numeric(20, 2)
         elif coltype == 'boolean':
-            sqltype = satypes.Boolean
+            if engine == 'mysql':
+                sqltype = mysql.TINYINT(1)
+            else:
+                sqltype = satypes.Boolean
         elif coltype == 'record':
             if engine == 'sqlite':
                 sqltype = satypes.Integer
