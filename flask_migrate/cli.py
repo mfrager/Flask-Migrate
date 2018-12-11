@@ -4,7 +4,7 @@ from flask_migrate import init as _init
 from flask_migrate import migrate as _migrate
 from flask_migrate import upgrade as _upgrade
 
-from app.table import TableBuilder
+from .table import TableBuilder
 
 @click.group()
 def db():
