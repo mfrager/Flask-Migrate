@@ -26,7 +26,7 @@ def migrate(directory, engine, multidb):
     flask_dir = current_app.root_path
     path = os.path.join(flask_dir, 'app', 'sql_tables')
     tb = TableBuilder()
-    tb.build_sqlalchemy_schema(self, path, engine=engine)
+    tb.build_sqlalchemy_schema(path, engine=engine)
     g.migrate_metadata = tb.metadata
     g.migrate_url = current_app.config.get('SQLALCHEMY_DATABASE_URI')
     g.migrate_table = None # process all tables (remove extras too)
