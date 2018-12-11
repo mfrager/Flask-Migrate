@@ -1,5 +1,6 @@
 from __future__ import with_statement
 from alembic import context
+from alembic.autogenerate import comparators
 from sqlalchemy import engine_from_config, pool
 from logging.config import fileConfig
 import logging
@@ -17,16 +18,18 @@ logger = logging.getLogger('alembic.env')
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-from flask import current_app
-config.set_main_option('sqlalchemy.url',
-                       current_app.config.get('SQLALCHEMY_DATABASE_URI'))
-target_metadata = current_app.extensions['migrate'].db.metadata
+from flask import current_app, g
+config.set_main_option('sqlalchemy.url', g.migrate_url)
+target_metadata = g.migrate_metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
+#@comparators.dispatch_for("table")
+#def compare_table_level(autogen_context, modify_ops, schemaname, tablename, conn_table, metadata_table):
+    
 
 def run_migrations_offline():
     """Run migrations in 'offline' mode.
@@ -65,6 +68,14 @@ def run_migrations_online():
                 directives[:] = []
                 logger.info('No changes in schema detected.')
 
+    def include_object(object, name, type_, reflected, compare_to):
+        if type_ == "table":
+            if g.migrate_table is None:
+                return True
+            elif name != g.migrate_table:
+                return False
+        return True
+
     engine = engine_from_config(config.get_section(config.config_ini_section),
                                 prefix='sqlalchemy.',
                                 poolclass=pool.NullPool)
@@ -73,14 +84,13 @@ def run_migrations_online():
     context.configure(connection=connection,
                       target_metadata=target_metadata,
                       process_revision_directives=process_revision_directives,
+                      include_object=include_object,
+                      compare_type=True,
                       **current_app.extensions['migrate'].configure_args)
-    
+
     try:
         with context.begin_transaction():
             context.run_migrations()
-    except Exception as exception:
-        logger.error(exception)
-        raise exception
     finally:
         connection.close()
 

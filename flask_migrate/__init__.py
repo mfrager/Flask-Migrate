@@ -36,7 +36,7 @@ class _MigrateConfig(object):
 class Config(AlembicConfig):
     def get_template_directory(self):
         package_dir = os.path.abspath(os.path.dirname(__file__))
-        return os.path.join(package_dir, 'templates', 'migrations')
+        return os.path.join(package_dir, 'templates')
 
 
 class Migrate(object):
