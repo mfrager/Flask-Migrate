@@ -310,7 +310,7 @@ class TableBuilder(object):
         for table in tables:
             ts = TableSpec.read_file(table)
             t = self.build_sqlalchemy_table(ts, engine)
-            log.info('Table: {} {}'.format(table, t)
+            log.info('Table: {} {}'.format(table, t))
             res.append([table, t])
         return res
 
