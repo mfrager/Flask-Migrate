@@ -306,4 +306,5 @@ class TableBuilder(object):
         for table in tables:
             ts = TableSpec.read_file(table)
             self.build_sqlalchemy_table(ts, engine)
+            print('{} {}'.format(table, ts))
 
