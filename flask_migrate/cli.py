@@ -1,6 +1,6 @@
 import os
 import click
-from flask import current_app
+from flask import current_app, g
 from flask.cli import with_appcontext
 from flask_migrate import init as _init
 from flask_migrate import migrate as _migrate
