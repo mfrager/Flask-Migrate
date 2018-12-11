@@ -1,18 +1,8 @@
 import click
 from flask.cli import with_appcontext
 from flask_migrate import init as _init
-from flask_migrate import revision as _revision
 from flask_migrate import migrate as _migrate
-from flask_migrate import edit as _edit
-from flask_migrate import merge as _merge
 from flask_migrate import upgrade as _upgrade
-from flask_migrate import downgrade as _downgrade
-from flask_migrate import show as _show
-from flask_migrate import history as _history
-from flask_migrate import heads as _heads
-from flask_migrate import branches as _branches
-from flask_migrate import current as _current
-from flask_migrate import stamp as _stamp
 
 from app.table import TableBuilder
 
