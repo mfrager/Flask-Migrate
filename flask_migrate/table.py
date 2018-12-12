@@ -309,12 +309,8 @@ class TableBuilder(object):
     def build_sqlalchemy_schema(self, path, engine='mysql'):
         pattern = str(Path(path) / '*.js')
         tables = sorted(glob.glob(pattern))
-        log.error('Path: {} Tables: {}'.format(path, tables))
-        res = []
+        #log.error('Path: {} Tables: {}'.format(path, tables))
         for table in tables:
             ts = TableSpec.read_file(table)
             t = self.build_sqlalchemy_table(ts, engine)
-            log.info('Table: {} {}'.format(table, t))
-            res.append([table, t])
-        return res
 
