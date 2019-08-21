@@ -127,14 +127,20 @@ class IndexSpec(object):
         uniq = False
         if self.type == 'unique':
             uniq = True
+        extra = {
+            'unique': uniq
+        }
         cols = []
         for c in self.columns:
             ctxt = c['column']
-            if 'size' in c:
-                ctxt = '{}({})'.format(ctxt, c['size'])
-                ctxt = text(ctxt)
             cols.append(ctxt)
-        return Index(self.name, *cols, unique=uniq)
+            # Index lengths only in MySQL
+            if 'size' in c:
+                if engine == 'mysql': 
+                    if not('mysql_length' in extra):
+                        extra['mysql_length'] = {}
+                    extra['mysql_length'][ctxt] = c['size']
+        return Index(self.name, *cols, **extra)
 
 class TableSpec(object):
     def __init__(self, table):
