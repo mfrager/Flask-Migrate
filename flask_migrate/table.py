@@ -132,6 +132,7 @@ class IndexSpec(object):
             ctxt = c['column']
             if 'size' in c:
                 ctxt = '{}({})'.format(ctxt, c['size'])
+                ctxt = text(ctxt)
             cols.append(ctxt)
         return Index(self.name, *cols, unique=uniq)
 
