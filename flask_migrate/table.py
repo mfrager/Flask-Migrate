@@ -307,7 +307,9 @@ class TableBuilder(object):
             cols.append(col.build_column(engine))
         for idx in tblspec.get_indexes():
             cols.append(idx.build_index(engine))
-        extra = {}
+        extra = {
+            'extend_existing': True
+        }
         if engine == 'sqlite':
             extra['sqlite_autoincrement'] = True
         table = Table(tblspec.table, self.metadata, *cols, **extra)
