@@ -139,7 +139,7 @@ class IndexSpec(object):
                 if engine == 'mysql': 
                     if not('mysql_length' in extra):
                         extra['mysql_length'] = {}
-                    extra['mysql_length'][ctxt] = c['size']
+                    extra['mysql_length'][ctxt] = int(c['size'])
         return Index(self.name, *cols, **extra)
 
 class TableSpec(object):
