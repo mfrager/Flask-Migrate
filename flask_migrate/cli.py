@@ -20,8 +20,8 @@ def db():
               help=('migration script directory (default is "migrations")'))
 @click.option('-e', '--engine', default='mysql',
                        help=('Specify engine: mysql, postgresql, sqlite (default: mysql)'))
-@click.option('-m', '--migrate', is_flag=True)
-@click.option('-u', '--upgrade', is_flag=True)
+@click.option('-m', '--migrate', 'migrate_flag', is_flag=True)
+@click.option('-u', '--upgrade', 'upgrade_flag', is_flag=True)
 @click.option('--multidb', is_flag=True,
               help=('Support multiple databases'))
 @with_appcontext
