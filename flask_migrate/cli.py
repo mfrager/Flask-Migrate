@@ -8,7 +8,7 @@ from flask_migrate import migrate as _migrate
 from flask_migrate import upgrade as _upgrade
 
 sys.path.append('/usr/src/app')
-from note.database import tb
+from note.table import TableBuilder
 
 @click.group()
 def db():
@@ -39,6 +39,8 @@ def migrate(directory, engine, migrate_flag, upgrade_flag, multidb):
     
     flask_dir = current_app.root_path
     path = os.path.join(flask_dir, 'sql_tables')
+    tb = TableBuilder()
+    tb.build_sqlalchemy_schema(path, engine=engine)
     g.migrate_metadata = tb.metadata
     g.migrate_url = current_app.config.get('SQLALCHEMY_DATABASE_URI')
     g.migrate_table = None # process all tables (remove extras too)
