@@ -1,4 +1,5 @@
 import os
+import sys
 import click
 from flask import current_app, g
 from flask.cli import with_appcontext
@@ -6,7 +7,8 @@ from flask_migrate import init as _init
 from flask_migrate import migrate as _migrate
 from flask_migrate import upgrade as _upgrade
 
-from note.table import TableBuilder
+sys.path.append('/usr/src/app/note')
+from table import TableBuilder
 
 @click.group()
 def db():
