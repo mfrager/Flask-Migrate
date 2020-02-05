@@ -20,13 +20,23 @@ def db():
               help=('migration script directory (default is "migrations")'))
 @click.option('-e', '--engine', default='mysql',
                        help=('Specify engine: mysql, postgresql, sqlite (default: mysql)'))
-@click.option('-m', '--migrate', default=True)
-@click.option('-u', '--upgrade', default=True)
+@click.option('-m', '--migrate', is_flag=True)
+@click.option('-u', '--upgrade', is_flag=True)
 @click.option('--multidb', is_flag=True,
               help=('Support multiple databases'))
 @with_appcontext
-def migrate(directory, engine, do_migrate, do_upgrade, multidb):
+def migrate(directory, engine, migrate_flag, upgrade_flag, multidb):
     """Perform a migration."""
+    if (migrate_flag and upgrade_flag) or not(migrate_flag or upgrade_flag):
+        do_migrate = True
+        do_upgrade = True
+    elif migrate_flag:
+        do_migrate = True
+        do_upgrade = False
+    elif upgrade_flag:
+        do_migrate = False
+        do_upgrade = True
+    
     flask_dir = current_app.root_path
     path = os.path.join(flask_dir, 'sql_tables')
     g.migrate_metadata = tb.metadata
@@ -36,6 +46,6 @@ def migrate(directory, engine, do_migrate, do_upgrade, multidb):
         _init(directory)
     if do_migrate:
         _migrate(directory)
-    if do_update:
+    if do_upgrade:
         _upgrade(directory)
 
