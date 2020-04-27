@@ -37,8 +37,7 @@ def migrate(directory, engine, migrate_flag, upgrade_flag, multidb):
         do_migrate = False
         do_upgrade = True
     
-    flask_dir = current_app.root_path
-    path = os.path.join(flask_dir, 'sql_tables')
+    path = '/usr/src/app/sql_tables'
     tb = TableBuilder()
     tb.build_sqlalchemy_schema(path, engine=engine)
     g.migrate_metadata = tb.metadata
