@@ -118,8 +118,7 @@ else:
 @catch_errors
 def update(directory=None, engine='mysql'):
     """Perform a migration."""
-    package_dir = os.path.abspath(os.path.dirname(__file__))
-    path = os.path.join(package_dir, 'sql_tables')
+    path = '/usr/src/app/sql_tables'
     tb = TableBuilder()
     tb.build_sqlalchemy_schema(self, path, engine=engine)
     g.migrate_url = current_app.config.get('SQLALCHEMY_DATABASE_URI')
